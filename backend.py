@@ -12,7 +12,7 @@ def create_tables():
                  (id INTEGER PRIMARY KEY, name TEXT NOT NULL UNIQUE, balance INTEGER NOT NULL)''')
 
     c.execute('''CREATE TABLE IF NOT EXISTS IET
-                 (id INTEGER PRIMARY KEY, IEC_id INTEGER NOT NULL, card_id INTEGER, amount INTEGER NOT NULL, date_time NUMERIC NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                 (id INTEGER PRIMARY KEY, IEC_id INTEGER NOT NULL, card_id INTEGER, amount INTEGER NOT NULL, date_time NUMERIC NOT NULL DEFAULT CURRENT_DATE,
                  FOREIGN KEY (IEC_id) REFERENCES IEC(id), FOREIGN KEY (card_id) REFERENCES bank_card(id))''')
 
     c.execute('''CREATE TRIGGER IF NOT EXISTS update_balance
@@ -76,3 +76,5 @@ def delete_transaction(transaction_id):
 def update_transaction(transaction_id, new_amount):
     c.execute("UPDATE IET SET amount = ? WHERE id = ?", (new_amount, transaction_id))
     conn.commit()
+
+create_tables()
