@@ -139,7 +139,7 @@ def open_add_bank_card():
     balance_entry = ttk.Entry(add_bank_card_window, font=("Helvetica", 12))
     balance_entry.pack(padx=20, pady=5)
 
-    add_button = tk.Button(add_bank_card_window, text="Add", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
+    add_button = tk.Button(add_bank_card_window,text="Add", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
     add_button.pack(padx=20, pady=20)
 
 def open_add_transaction():
