@@ -77,7 +77,7 @@ def create_tables():
 
     conn.commit()
 
-def get_bank_info():
+def get_bank_names():
     global bank_names
     
     q = c.execute("select name,id from bank_card")    
@@ -92,7 +92,7 @@ def get_category_names():
         catgory_names[item[0]] = item[1]    
 
 def get_info():
-    get_bank_info()
+    get_bank_names()
     get_category_names()
     get_all_search_result()
     get_all_record()
@@ -135,7 +135,7 @@ def add_bank_card(bank_name,balance):
     
     # update bank dict
 
-    get_bank_info()
+    get_bank_names()
 
 def add_categroy(type,title,priority):
     if (type == None) or (title == None) or (priority == None) or (title in catgory_names):
