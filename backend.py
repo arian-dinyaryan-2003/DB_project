@@ -101,7 +101,7 @@ def get_info():
 def add_income_expense(category:str, card_name:str, amount:str,date:str=""):
     
     if (category == None) or (card_name == None) or (amount == None):
-        return
+        return False
     
     IEC_id = catgory_names[category]
     card_id = bank_names[card_name]
@@ -109,9 +109,12 @@ def add_income_expense(category:str, card_name:str, amount:str,date:str=""):
     try:
         amount = int(amount)
     except:
-        return
+        return False
     
     Dflag = is_valid_date(date)
+
+    if date != "" and (not Dflag):
+        return False
     
     if Dflag:
         c.execute("INSERT INTO IET (IEC_id, card_id, amount,date_time) VALUES (?, ?, ?,?)", (IEC_id, card_id, amount,date))
@@ -123,12 +126,12 @@ def add_income_expense(category:str, card_name:str, amount:str,date:str=""):
 
 def add_bank_card(bank_name,balance):
     if (bank_name == None) or (balance == None) or (bank_name in bank_names):
-        return
+        return False
     
     try:
         balance = int(balance)
     except:
-        return
+        return False
     
     c.execute("INSERT INTO bank_card(name,balance) VALUES (?,?)",(bank_name,balance))
     conn.commit()
@@ -139,7 +142,7 @@ def add_bank_card(bank_name,balance):
 
 def add_categroy(type,title,priority):
     if (type == None) or (title == None) or (priority == None) or (title in catgory_names):
-        return
+        return False
     
     if type == "Income":
         type = 1
@@ -158,7 +161,7 @@ def get_all_search_result(category:str,start_date:str="", end_date:str=""):
     
     global all_search_records
     if category == None:
-        return
+        return False #there is error
     if is_valid_date(start_date) and is_valid_date(end_date):
         c.execute("SELECT IET.amount, IEC.title, bank_card.name, IET.date_time "
           "FROM IET "

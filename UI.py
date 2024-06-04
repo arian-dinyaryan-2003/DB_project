@@ -1,6 +1,17 @@
 import tkinter as tk
 from tkinter import ttk
 
+def show_error(message):
+    error_window = tk.Toplevel(root)
+    error_window.title("Error")
+    error_window.configure(bg="red")
+    
+    label = ttk.Label(error_window, text=message, background="red", font=("Helvetica", 16))
+    label.pack(padx=20, pady=20)
+    
+    ok_button = tk.Button(error_window, text="OK!", command=error_window.destroy, width=15, height=2, bg="white", fg="black", activebackground="lightgray", activeforeground="black", font=("Helvetica", 12))
+    ok_button.pack(padx=20, pady=20)
+
 def open_bank_info():
     bank_info_window = tk.Toplevel(root)
     bank_info_window.title("Bank Information")
@@ -48,11 +59,12 @@ def open_window1():
     tree.heading("bank", text="Bank")
     tree.heading("date", text="Date")
 
+    
     tree.column("amount", width=100, anchor='center')
     tree.column("title", width=100, anchor='center')
     tree.column("bank", width=100, anchor='center')
     tree.column("date", width=100, anchor='center')
-    
+
     # Sample data
     data = [
         (1000, "Groceries", "Bank 1", "2024-01-01"),
@@ -100,7 +112,7 @@ def open_window3():
     category_label = ttk.Label(window3, text="Select Category:", background="lightyellow", font=("Helvetica", 12))
     category_label.pack(padx=20, pady=(10, 0))
 
-    categories = ["Category 1", "Category 2", "Category 3"]  # مثال از دسته‌بندی‌ها
+    categories = ["Category 1", "Category 2", "Category 3"]  # Category sample
     category_combobox = ttk.Combobox(window3, values=categories, font=("Helvetica", 12))
     category_combobox.pack(padx=20, pady=5)
 
@@ -139,7 +151,7 @@ def open_add_bank_card():
     balance_entry = ttk.Entry(add_bank_card_window, font=("Helvetica", 12))
     balance_entry.pack(padx=20, pady=5)
 
-    add_button = tk.Button(add_bank_card_window,text="Add", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
+    add_button = tk.Button(add_bank_card_window, text="Add", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
     add_button.pack(padx=20, pady=20)
 
 def open_add_transaction():
@@ -159,14 +171,14 @@ def open_add_transaction():
     bank_name_label = ttk.Label(add_transaction_window, text="Select Bank:", background="lightseagreen", font=("Helvetica", 12))
     bank_name_label.pack(padx=20, pady=(10, 0))
 
-    bank_names = ["Bank 1", "Bank 2", "Bank 3"]  # مثال از نام بانک‌ها
+    bank_names = ["Bank 1", "Bank 2", "Bank 3"]  # Bank sample
     bank_name_combobox = ttk.Combobox(add_transaction_window, values=bank_names, font=("Helvetica", 12))
     bank_name_combobox.pack(padx=20, pady=5)
 
     category_label = ttk.Label(add_transaction_window, text="Select Category:", background="lightseagreen", font=("Helvetica", 12))
     category_label.pack(padx=20, pady=(10, 0))
 
-    categories = ["Category 1", "Category 2", "Category 3"]  # مثال از دسته‌بندی‌ها
+    categories = ["Category 1", "Category 2", "Category 3"]  # Category sample
     category_combobox = ttk.Combobox(add_transaction_window, values=categories, font=("Helvetica", 12))
     category_combobox.pack(padx=20, pady=5)
 
@@ -224,5 +236,8 @@ button2.pack(padx=40, pady=10)
 
 button3 = tk.Button(root, text="Search", command=open_window3, width=40, height=4, bg="lightyellow", fg="black", activebackground="yellow", activeforeground="white", font=("Helvetica", 16))
 button3.pack(padx=40, pady=10)
+
+# Example of triggering an error window
+# show_error("This is an error message")
 
 root.mainloop()
