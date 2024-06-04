@@ -94,7 +94,6 @@ def get_category_names():
 def get_info():
     get_bank_names()
     get_category_names()
-    get_all_search_result()
     get_all_record()
     bank_card_informations()
 

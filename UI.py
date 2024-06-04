@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from backend import *
 
 def show_error(message):
     error_window = tk.Toplevel(root)
@@ -31,11 +32,8 @@ def open_bank_info():
     tree.column("balance", width=100, anchor='center')
     
     # Sample data
-    data = [
-        ("Bank 1", 100, 200, 300),
-        ("Bank 2", 150, 250, 400),
-        ("Bank 3", 200, 300, 500)
-    ]
+    bank_card_informations()
+    data = all_card_informations
     
     for item in data:
         tree.insert('', 'end', values=item)
@@ -65,12 +63,10 @@ def open_window1():
     tree.column("bank", width=100, anchor='center')
     tree.column("date", width=100, anchor='center')
 
+    get_all_record()
+
     # Sample data
-    data = [
-        (1000, "Groceries", "Bank 1", "2024-01-01"),
-        (500, "Rent", "Bank 2", "2024-02-01"),
-        (200, "Utilities", "Bank 3", "2024-03-01")
-    ]
+    data = all_records
     
     for item in data:
         tree.insert('', 'end', values=item)
@@ -112,7 +108,11 @@ def open_window3():
     category_label = ttk.Label(window3, text="Select Category:", background="lightyellow", font=("Helvetica", 12))
     category_label.pack(padx=20, pady=(10, 0))
 
-    categories = ["Category 1", "Category 2", "Category 3"]  # Category sample
+    categories = []
+
+    for item in catgory_names:
+        categories.append(item)
+        
     category_combobox = ttk.Combobox(window3, values=categories, font=("Helvetica", 12))
     category_combobox.pack(padx=20, pady=5)
 
@@ -155,6 +155,7 @@ def open_add_bank_card():
     add_button.pack(padx=20, pady=20)
 
 def open_add_transaction():
+    global bank_names
     add_transaction_window = tk.Toplevel(root)
     add_transaction_window.title("Add Transaction")
     add_transaction_window.configure(bg="lightseagreen")
@@ -171,14 +172,21 @@ def open_add_transaction():
     bank_name_label = ttk.Label(add_transaction_window, text="Select Bank:", background="lightseagreen", font=("Helvetica", 12))
     bank_name_label.pack(padx=20, pady=(10, 0))
 
-    bank_names = ["Bank 1", "Bank 2", "Bank 3"]  # Bank sample
-    bank_name_combobox = ttk.Combobox(add_transaction_window, values=bank_names, font=("Helvetica", 12))
+    bn = []
+
+    for item in bank_names:
+        bn.append(item)  # Bank sample
+    bank_name_combobox = ttk.Combobox(add_transaction_window, values=bn, font=("Helvetica", 12))
     bank_name_combobox.pack(padx=20, pady=5)
 
     category_label = ttk.Label(add_transaction_window, text="Select Category:", background="lightseagreen", font=("Helvetica", 12))
     category_label.pack(padx=20, pady=(10, 0))
 
-    categories = ["Category 1", "Category 2", "Category 3"]  # Category sample
+    categories = []
+
+    for item in catgory_names:
+        categories.append(item)
+
     category_combobox = ttk.Combobox(add_transaction_window, values=categories, font=("Helvetica", 12))
     category_combobox.pack(padx=20, pady=5)
 
