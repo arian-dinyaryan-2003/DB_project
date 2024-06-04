@@ -28,6 +28,16 @@ def is_valid_date(date_string):
     except ValueError:
         return False
 
+def compare_dates(date_str1, date_str2):
+    # Convert the date strings to datetime objects
+    date_obj1 = datetime.strptime(date_str1, "%Y-%m-%d")
+    date_obj2 = datetime.strptime(date_str2, "%Y-%m-%d")
+
+    # Compare the dates
+    if date_obj1 < date_obj2:
+        return True
+    else:
+        return False
 
 
 
@@ -99,12 +109,9 @@ def get_info():
 
 def add_income_expense(category:str, card_name:str, amount:str,date:str=""):
     
-    if (category == None) or (card_name == None) or (amount == None):
+    if (card_name not in bank_names) or (category not in catgory_names) or (amount == ""):
         return False
     
-    IEC_id = catgory_names[category]
-    card_id = bank_names[card_name]
-
     try:
         amount = int(amount)
     except:
@@ -112,8 +119,13 @@ def add_income_expense(category:str, card_name:str, amount:str,date:str=""):
     
     Dflag = is_valid_date(date)
 
-    if date != "" and (not Dflag):
+    if (date != "") and (not Dflag):
         return False
+    
+    
+    IEC_id = catgory_names[category]
+    card_id = bank_names[card_name]
+
     
     if Dflag:
         c.execute("INSERT INTO IET (IEC_id, card_id, amount,date_time) VALUES (?, ?, ?,?)", (IEC_id, card_id, amount,date))
@@ -122,6 +134,8 @@ def add_income_expense(category:str, card_name:str, amount:str,date:str=""):
         c.execute("INSERT INTO IET (IEC_id, card_id, amount) VALUES (?, ?, ?)", (IEC_id, card_id, amount))
 
     conn.commit()
+    
+    return True
 
 def add_bank_card(bank_name,balance):
     if (bank_name == None) or (balance == None) or (bank_name in bank_names):
@@ -136,8 +150,9 @@ def add_bank_card(bank_name,balance):
     conn.commit()
     
     # update bank dict
-
     get_bank_names()
+    
+    return True
 
 def add_categroy(type,title,priority):
     if (type == None) or (title == None) or (priority == None) or (title in catgory_names):
@@ -155,20 +170,28 @@ def add_categroy(type,title,priority):
     # get category info
 
     get_category_names()
+    return True
 
 def get_all_search_result(category:str,start_date:str="", end_date:str=""):
     
     global all_search_records
-    if category == None:
+    if category == "" :
         return False #there is error
-    if is_valid_date(start_date) and is_valid_date(end_date):
-        c.execute("SELECT IET.amount, IEC.title, bank_card.name, IET.date_time "
-          "FROM IET "
-          "JOIN IEC ON IET.IEC_id = IEC.id "
-          "JOIN bank_card ON IET.card_id = bank_card.id "
-          "WHERE (IET.date_time BETWEEN ? AND ?) AND (IEC.title = ?) "
-          "ORDER BY IET.date_time DESC",
-          (start_date, end_date, category))
+    
+    
+    if (end_date != "" or start_date != ""):
+        
+        if ((is_valid_date(start_date) and is_valid_date(end_date)) and compare_dates(start_date,end_date)):
+        
+            c.execute("SELECT IET.amount, IEC.title, bank_card.name, IET.date_time "
+            "FROM IET "
+            "JOIN IEC ON IET.IEC_id = IEC.id "
+            "JOIN bank_card ON IET.card_id = bank_card.id "
+            "WHERE (IET.date_time BETWEEN ? AND ?) AND (IEC.title = ?) "
+            "ORDER BY IET.date_time DESC",
+            (start_date, end_date, category))
+        else:
+            return False
 
     else:
         c.execute("SELECT IET.amount,IEC.title, bank_card.name ,IET.date_time "
@@ -179,6 +202,7 @@ def get_all_search_result(category:str,start_date:str="", end_date:str=""):
           "ORDER BY IET.date_time DESC", (category,))
 
     all_search_records = c.fetchall()
+    return True
 
 def get_all_record():
     

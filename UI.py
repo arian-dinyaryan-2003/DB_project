@@ -14,6 +14,8 @@ def show_error(message):
     ok_button.pack(padx=20, pady=20)
 
 def open_bank_info():
+    global all_card_informations
+    
     bank_info_window = tk.Toplevel(root)
     bank_info_window.title("Bank Information")
     bank_info_window.configure(bg="lightblue")
@@ -45,6 +47,9 @@ def open_bank_info():
     scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
 def open_window1():
+    
+    global all_records
+    
     window1 = tk.Toplevel(root)
     window1.title("Show Information")
     window1.configure(bg="lightblue")
@@ -98,6 +103,25 @@ def open_window2():
     button_category.pack(padx=20, pady=10)
 
 def open_window3():
+    
+    def event():
+        ED = end_date_entry.get()
+        SD = start_date_entry.get()
+        C = category_combobox.get()
+        
+        flag = get_all_search_result(C,SD,ED)
+        
+        if not flag:
+            show_error("There is an entery error")
+        
+        # TODO
+        # connect all_search_records to show information grid and refresh the list after any updating
+        
+        # clear elements
+        category_combobox.delete(0,"")
+        start_date_entry.delete(0,"")
+        end_date_entry.delete(0,"")
+        
     window3 = tk.Toplevel(root)
     window3.title("Search")
     window3.configure(bg="lightyellow")
@@ -128,10 +152,26 @@ def open_window3():
     end_date_entry = ttk.Entry(window3, font=("Helvetica", 12))
     end_date_entry.pack(padx=20, pady=5)
 
-    search_button = tk.Button(window3, text="Search Now", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
+    search_button = tk.Button(window3,command=event ,text="Search Now", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
     search_button.pack(padx=20, pady=20)
 
 def open_add_bank_card():
+    
+    
+    def AR_bank():
+        
+        BN = bank_name_entry.get()
+        BA = balance_entry.get()
+        flag = add_bank_card(BN,BA)
+        
+        if not flag:
+            show_error("There is an entery error")
+        
+        
+        # clear data
+        bank_name_entry.delete(0,"")
+        balance_entry.delete(0,"")
+        
     add_bank_card_window = tk.Toplevel(root)
     add_bank_card_window.title("Add Bank Card")
     add_bank_card_window.configure(bg="palegreen")
@@ -151,11 +191,32 @@ def open_add_bank_card():
     balance_entry = ttk.Entry(add_bank_card_window, font=("Helvetica", 12))
     balance_entry.pack(padx=20, pady=5)
 
-    add_button = tk.Button(add_bank_card_window, text="Add", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
+    add_button = tk.Button(add_bank_card_window,command=AR_bank ,text="Add", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
     add_button.pack(padx=20, pady=20)
 
 def open_add_transaction():
     global bank_names
+    
+    def AR_transaction():
+        
+        AE = amount_entry.get()
+        BN = bank_name_combobox.get()
+        CN = category_combobox.get()
+        D = date_entry.get()
+        
+        flag = add_income_expense(CN,BN,AE,D)
+        
+        if not flag:
+            show_error("There is an error entery") 
+        
+        # clear the box
+        amount_entry.delete(0,"")
+        bank_name_combobox.delete(0,"")
+        category_combobox.delete(0,"")
+        date_entry.delete(0,"")
+        
+
+    
     add_transaction_window = tk.Toplevel(root)
     add_transaction_window.title("Add Transaction")
     add_transaction_window.configure(bg="lightseagreen")
@@ -196,10 +257,25 @@ def open_add_transaction():
     date_entry = ttk.Entry(add_transaction_window, font=("Helvetica", 12))
     date_entry.pack(padx=20, pady=5)
 
-    add_button = tk.Button(add_transaction_window, text="Add", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
+    add_button = tk.Button(add_transaction_window,command=AR_transaction, text="Add", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
     add_button.pack(padx=20, pady=20)
 
 def open_add_category():
+    def AR_category():
+        
+        # insert into table
+        CN = category_name_entry.get()
+        T = type_combobox.get()
+        P = priority_combobox.get()
+        Flag = add_categroy(T,CN,P)
+        if not Flag:
+            show_error("there is entery error")
+            
+        # clear the text boxes
+        category_name_entry.delete(0,"")
+        type_combobox.delete(0,"")
+        priority_combobox.delete(0,"")
+
     add_category_window = tk.Toplevel(root)
     add_category_window.title("Add Category")
     add_category_window.configure(bg="mediumseagreen")
@@ -227,7 +303,7 @@ def open_add_category():
     priority_combobox = ttk.Combobox(add_category_window, values=priorities, font=("Helvetica", 12))
     priority_combobox.pack(padx=20, pady=5)
 
-    add_button = tk.Button(add_category_window, text="Add", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
+    add_button = tk.Button(add_category_window,command=AR_category ,text="Add", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
     add_button.pack(padx=20, pady=20)
 
 root = tk.Tk()
