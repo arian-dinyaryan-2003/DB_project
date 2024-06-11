@@ -176,7 +176,7 @@ def get_all_search_result(category:str,start_date:str="", end_date:str=""):
     
     global all_search_records
     if category == "" :
-        return False #there is error
+        return [False] #there is error
     
     
     if (end_date != "" or start_date != ""):
@@ -191,7 +191,7 @@ def get_all_search_result(category:str,start_date:str="", end_date:str=""):
             "ORDER BY IET.date_time DESC",
             (start_date, end_date, category))
         else:
-            return False
+            return [False]
 
     else:
         c.execute("SELECT IET.amount,IEC.title, bank_card.name ,IET.date_time "
@@ -202,7 +202,7 @@ def get_all_search_result(category:str,start_date:str="", end_date:str=""):
           "ORDER BY IET.date_time DESC", (category,))
 
     all_search_records = c.fetchall()
-    return True
+    return [True,all_search_records]
 
 def get_all_record():
     

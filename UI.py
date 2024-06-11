@@ -81,6 +81,38 @@ def open_window1():
     bank_info_button = tk.Button(window1, text="Bank Info", command=open_bank_info, width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
     bank_info_button.pack(pady=10)
 
+def open_window_for_search(data):
+    
+    global all_records
+    
+    window1 = tk.Toplevel(root)
+    window1.title("Show search result")
+    window1.configure(bg="lightblue")
+    
+    columns = ("amount", "title", "bank", "date")
+    
+    tree = ttk.Treeview(window1, columns=columns, show='headings')
+    tree.heading("amount", text="Amount")
+    tree.heading("title", text="Title")
+    tree.heading("bank", text="Bank")
+    tree.heading("date", text="Date")
+
+    
+    tree.column("amount", width=100, anchor='center')
+    tree.column("title", width=100, anchor='center')
+    tree.column("bank", width=100, anchor='center')
+    tree.column("date", width=100, anchor='center')
+    
+    for item in data:
+        tree.insert('', 'end', values=item)
+    
+    tree.pack(padx=20, pady=20, fill=tk.BOTH, expand=True)
+    
+    scrollbar = ttk.Scrollbar(window1, orient=tk.VERTICAL, command=tree.yview)
+    tree.configure(yscroll=scrollbar.set)
+    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+
 def open_window2():
     window2 = tk.Toplevel(root)
     window2.title("Add record")
@@ -106,11 +138,14 @@ def open_window3():
         
         flag = get_all_search_result(C,SD,ED)
         
-        if not flag:
+        if not flag[0]:
             show_error("There is an entery error")
+            category_combobox.delete(0,"")
+            start_date_entry.delete(0,"")
+            end_date_entry.delete(0,"")
+            return
         
-        # TODO
-        # connect all_search_records to show information grid and refresh the list after any updating
+        open_window_for_search(flag[1])
         
         # clear elements
         category_combobox.delete(0,"")
