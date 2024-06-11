@@ -81,6 +81,48 @@ def open_window1():
     bank_info_button = tk.Button(window1, text="Bank Info", command=open_bank_info, width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
     bank_info_button.pack(pady=10)
 
+    # Add double-click event
+    tree.bind("<Double-1>", lambda event: on_row_double_click(event, tree))
+
+def on_row_double_click(event, tree):
+    item = tree.selection()[0]
+    item_values = tree.item(item, "values")
+    open_edit_delete_window(item_values)
+
+def open_edit_delete_window(item_values):
+    edit_delete_window = tk.Toplevel(root)
+    edit_delete_window.title("Edit / Delete")
+    edit_delete_window.configure(bg="lightgray")
+    
+    label = ttk.Label(edit_delete_window, text="Edit / Delete", font=("Helvetica", 16))
+    label.pack(padx=20, pady=20)
+
+    # Display item values
+    values_label = ttk.Label(edit_delete_window, text=f"Selected Item: {item_values}", font=("Helvetica", 12))
+    values_label.pack(padx=20, pady=10)
+
+    # Add New Amount Entry
+    new_amount_label = ttk.Label(edit_delete_window, text="New Amount:", background="lightgray", font=("Helvetica", 12))
+    new_amount_label.pack(padx=20, pady=(10, 0))
+
+    new_amount_entry = ttk.Entry(edit_delete_window, font=("Helvetica", 12))
+    new_amount_entry.pack(padx=20, pady=5)
+
+    # Add New Date Entry
+    new_date_label = ttk.Label(edit_delete_window, text="New Date:", background="lightgray", font=("Helvetica", 12))
+    new_date_label.pack(padx=20, pady=(10, 0))
+
+    new_date_entry = ttk.Entry(edit_delete_window, font=("Helvetica", 12))
+    new_date_entry.pack(padx=20, pady=5)
+
+    # Add Edit and Delete buttons
+    edit_button = tk.Button(edit_delete_window, text="Edit", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
+    edit_button.pack(pady=10)
+
+    delete_button = tk.Button(edit_delete_window, text="Delete", width=15, height=2, bg="lightcoral", fg="black", activebackground="red", activeforeground="white", font=("Helvetica", 12))
+    delete_button.pack(pady=10)
+
+
 def open_window_for_search(data):
     
     global all_records
