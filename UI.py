@@ -33,9 +33,7 @@ def open_bank_info():
     tree.column("deposit", width=100, anchor='center')
     tree.column("balance", width=100, anchor='center')
     
-    # Sample data
-    bank_card_informations()
-    data = all_card_informations
+    data = bank_card_informations()
     
     for item in data:
         tree.insert('', 'end', values=item)
@@ -68,10 +66,7 @@ def open_window1():
     tree.column("bank", width=100, anchor='center')
     tree.column("date", width=100, anchor='center')
 
-    get_all_record()
-
-    # Sample data
-    data = all_records
+    data = get_all_record()
     
     for item in data:
         tree.insert('', 'end', values=item)

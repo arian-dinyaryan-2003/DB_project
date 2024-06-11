@@ -212,6 +212,7 @@ def get_all_record():
             "JOIN IEC ON IET.IEC_id = IEC.id "
             "JOIN bank_card ON IET.card_id = bank_card.id ORDER BY IET.date_time DESC")
     all_records =  c.fetchall()
+    return all_records
 
 def bank_card_informations():
     global all_card_informations
@@ -224,6 +225,7 @@ def bank_card_informations():
               "JOIN bank_card ON IET.card_id = bank_card.id "
               "GROUP BY bank_card.name")
     all_card_informations =  c.fetchall()
+    return all_card_informations
 
 def delete_transaction(transaction_id):
     c.execute("DELETE FROM IET WHERE id = ?", (transaction_id,))
@@ -233,4 +235,5 @@ def update_transaction(transaction_id, new_amount):
     c.execute("UPDATE IET SET amount = ? WHERE id = ?", (new_amount, transaction_id))
     conn.commit()
 
+create_tables()
 get_info()
