@@ -207,7 +207,7 @@ def get_all_search_result(category:str,start_date:str="", end_date:str=""):
 def get_all_record():
     
     global all_records
-    c.execute("SELECT IET.amount,IEC.title, bank_card.name ,IET.date_time "
+    c.execute("SELECT IEC.id,IET.amount,IEC.title, bank_card.name ,IET.date_time "
             "FROM IET "
             "JOIN IEC ON IET.IEC_id = IEC.id "
             "JOIN bank_card ON IET.card_id = bank_card.id ORDER BY IET.date_time DESC")

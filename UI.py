@@ -52,19 +52,20 @@ def open_window1():
     window1.title("Show Information")
     window1.configure(bg="lightblue")
     
-    columns = ("amount", "title", "bank", "date")
+    columns = ("id","amount", "title", "bank", "date")
     
     tree = ttk.Treeview(window1, columns=columns, show='headings')
     tree.heading("amount", text="Amount")
     tree.heading("title", text="Title")
     tree.heading("bank", text="Bank")
     tree.heading("date", text="Date")
-
+    tree.heading("id", text="ID")
     
     tree.column("amount", width=100, anchor='center')
     tree.column("title", width=100, anchor='center')
     tree.column("bank", width=100, anchor='center')
     tree.column("date", width=100, anchor='center')
+    tree.column("id", width=50, anchor='center')
 
     data = get_all_record()
     
@@ -393,7 +394,6 @@ button2.pack(padx=40, pady=10)
 button3 = tk.Button(root, text="Search", command=open_window3, width=40, height=4, bg="lightyellow", fg="black", activebackground="yellow", activeforeground="white", font=("Helvetica", 16))
 button3.pack(padx=40, pady=10)
 
-# Example of triggering an error window
-# show_error("This is an error message")
+
 
 root.mainloop()
