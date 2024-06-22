@@ -105,6 +105,9 @@ def open_edit_delete_window(item_values):
             
         new_amount_entry.delete(0,"")
         new_date_entry.delete(0,"")
+    
+    def del_event():
+        delete_transaction(item_values[0])
         
     edit_delete_window = tk.Toplevel(root)
     edit_delete_window.title("Edit / Delete")
@@ -135,7 +138,7 @@ def open_edit_delete_window(item_values):
     edit_button = tk.Button(edit_delete_window, text="Edit", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12),command = edit_Event)
     edit_button.pack(pady=10)
 
-    delete_button = tk.Button(edit_delete_window, text="Delete", width=15, height=2, bg="lightcoral", fg="black", activebackground="red", activeforeground="white", font=("Helvetica", 12))
+    delete_button = tk.Button(edit_delete_window, text="Delete", width=15, height=2, bg="lightcoral", fg="black", activebackground="red", activeforeground="white", font=("Helvetica", 12),command=del_event)
     delete_button.pack(pady=10)
 
 
