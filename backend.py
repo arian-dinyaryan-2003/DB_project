@@ -207,7 +207,7 @@ def get_all_search_result(category:str,start_date:str="", end_date:str=""):
 def get_all_record():
     
     global all_records
-    c.execute("SELECT IEC.id,IET.amount,IEC.title, bank_card.name ,IET.date_time "
+    c.execute("SELECT IET.id,IET.amount,IEC.title, bank_card.name ,IET.date_time "
             "FROM IET "
             "JOIN IEC ON IET.IEC_id = IEC.id "
             "JOIN bank_card ON IET.card_id = bank_card.id ORDER BY IET.date_time DESC")
@@ -256,6 +256,40 @@ def Edit_IET(ID,na,nd):
         update_transaction(ID,na)   
     return True
 
+def get_all_Income_Expence(category:str,start_date:str="", end_date:str=""):
+    global all_search_records 
 
+    if category == "All_income":
+        category = 1
+    elif category == "All_expence":
+        category = -1
+        
+
+    if (end_date != "" or start_date != ""):
+        
+        if ((is_valid_date(start_date) and is_valid_date(end_date)) and compare_dates(start_date,end_date)):
+        
+            c.execute("SELECT IET.amount, IEC.title, bank_card.name, IET.date_time "
+            "FROM IET "
+            "JOIN IEC ON IET.IEC_id = IEC.id "
+            "JOIN bank_card ON IET.card_id = bank_card.id "
+            "WHERE (IET.date_time BETWEEN ? AND ?) AND (IEC.type = ?) "
+            "ORDER BY IET.date_time DESC",
+            (start_date, end_date,category))
+        else:
+            return [False]
+
+    else:
+        c.execute("SELECT IET.amount,IEC.title, bank_card.name ,IET.date_time "
+          "FROM IET "
+          "JOIN IEC ON IET.IEC_id = IEC.id "
+          "JOIN bank_card ON IET.card_id = bank_card.id "
+          "WHERE IEC.type is ?"
+          "ORDER BY IET.date_time DESC", (category,))
+
+    all_search_records = c.fetchall()
+    return [True,all_search_records]
+
+    
 create_tables()
 get_info()

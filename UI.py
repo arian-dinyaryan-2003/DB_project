@@ -197,7 +197,10 @@ def open_window3():
         SD = start_date_entry.get()
         C = category_combobox.get()
         
-        flag = get_all_search_result(C,SD,ED)
+        if C in ["All_income","All_expence"]:
+            flag = get_all_Income_Expence(C,SD,ED)
+        else:
+            flag = get_all_search_result(C,SD,ED)
         
         if not flag[0]:
             show_error("There is an entery error")
@@ -223,7 +226,7 @@ def open_window3():
     category_label = ttk.Label(window3, text="Select Category:", background="lightyellow", font=("Helvetica", 12))
     category_label.pack(padx=20, pady=(10, 0))
 
-    categories = []
+    categories = ["All_income","All_expence"]
 
     for item in catgory_names:
         categories.append(item)
