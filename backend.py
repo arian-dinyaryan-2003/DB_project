@@ -231,9 +231,31 @@ def delete_transaction(transaction_id):
     c.execute("DELETE FROM IET WHERE id = ?", (transaction_id,))
     conn.commit()
 
-def update_transaction(transaction_id, new_amount):
+def update_transaction(transaction_id, new_amount:int):
     c.execute("UPDATE IET SET amount = ? WHERE id = ?", (new_amount, transaction_id))
     conn.commit()
+def update_transaction_Date(transaction_id, date):
+    c.execute("UPDATE IET SET date_time = ? WHERE id = ?", (date, transaction_id))
+    conn.commit()
+
+def Edit_IET(ID,na,nd):
+
+    
+    Dflag = is_valid_date(nd)
+    if (nd != "") and (not Dflag):
+        return False
+    
+    if nd != "" :
+        update_transaction_Date(ID,nd)
+    
+    if na != "":
+        try:
+            na = int(na)
+        except:
+            return False
+        update_transaction(ID,na)   
+    return True
+
 
 create_tables()
 get_info()

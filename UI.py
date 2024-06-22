@@ -91,6 +91,21 @@ def on_row_double_click(event, tree):
     open_edit_delete_window(item_values)
 
 def open_edit_delete_window(item_values):
+    
+    def edit_Event():
+        na = new_amount_entry.get()
+        nd = new_date_entry.get()
+        if na =="" and nd=="":
+            pass
+        id = item_values[0]
+        flag = Edit_IET(id,na,nd)
+        
+        if not flag:
+            show_error("entery error")
+            
+        new_amount_entry.delete(0,"")
+        new_date_entry.delete(0,"")
+        
     edit_delete_window = tk.Toplevel(root)
     edit_delete_window.title("Edit / Delete")
     edit_delete_window.configure(bg="lightgray")
@@ -117,7 +132,7 @@ def open_edit_delete_window(item_values):
     new_date_entry.pack(padx=20, pady=5)
 
     # Add Edit and Delete buttons
-    edit_button = tk.Button(edit_delete_window, text="Edit", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12))
+    edit_button = tk.Button(edit_delete_window, text="Edit", width=15, height=2, bg="lightblue", fg="black", activebackground="blue", activeforeground="white", font=("Helvetica", 12),command = edit_Event)
     edit_button.pack(pady=10)
 
     delete_button = tk.Button(edit_delete_window, text="Delete", width=15, height=2, bg="lightcoral", fg="black", activebackground="red", activeforeground="white", font=("Helvetica", 12))
